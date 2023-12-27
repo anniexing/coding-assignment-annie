@@ -8,6 +8,9 @@ const WatchLater = ({viewTrailer}) => {
 
     const state = useSelector((state) => state)
     const { watchLater } = state
+  /**
+   * Issue:Not Exporting Actions Directly in watchLaterSlice
+   */
     const { remveAllWatchLater } = watchLaterSlice.actions
     const dispatch = useDispatch()
 
@@ -17,8 +20,8 @@ const WatchLater = ({viewTrailer}) => {
         <h6 className="header">Watch Later List</h6>
         <div className="row">
         {watchLater.watchLaterMovies.map((movie) => (
-          <Movie 
-            movie={movie} 
+          <Movie
+            movie={movie}
             key={movie.id}
             viewTrailer={viewTrailer}
           />

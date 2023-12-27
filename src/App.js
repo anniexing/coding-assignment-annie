@@ -12,23 +12,42 @@ import YouTubePlayer from './components/YoutubePlayer'
 import './app.scss'
 
 const App = () => {
-
+  /**
+   * Issues: Destructuring movies directly from the entire state
+   * Suggestion: Destructuring only the necessary parts of the state can be more efficient
+   */
   const state = useSelector((state) => state)
-  const { movies } = state  
+  const { movies } = state
   const dispatch = useDispatch()
   const [searchParams, setSearchParams] = useSearchParams()
   const searchQuery = searchParams.get('search')
+  /**
+   * Issue: VideoKey is in local state, padded during the nested components
+   * Suggestion: Move videos to global state and createSelector, generate videoKey
+   * and can be used in any component directly.
+   */
   const [videoKey, setVideoKey] = useState()
+  /**
+   * Issue: Do not used state.
+   * Suggestion: Remove unused state and method
+   */
   const [isOpen, setOpen] = useState(false)
   const navigate = useNavigate()
-  
+
+  /**
+   * Issue: Some unused method and state
+   * Suggestion: Remove unused methods and states.
+   */
   const closeModal = () => setOpen(false)
-  
+
   const closeCard = () => {
 
   }
 
   const getSearchResults = (query) => {
+    /**
+     * Search movies can not work
+     */
     if (query !== '') {
       dispatch(fetchMovies(`${ENDPOINT_SEARCH}&query=`+query))
       setSearchParams(createSearchParams({ search: query }))
@@ -43,6 +62,10 @@ const App = () => {
     getSearchResults(query)
   }
 
+  /**
+   * Issue: api url spread multiple files
+   *
+   */
   const getMovies = () => {
     if (searchQuery) {
         dispatch(fetchMovies(`${ENDPOINT_SEARCH}&query=`+searchQuery))
@@ -51,12 +74,30 @@ const App = () => {
     }
   }
 
+  /**
+   * 1.Issues:  viewTrailer props passed multiple nested components
+   *   Suggestion: dispatch fetchMovieById when click trailer,
+   *   store the videos in global state and using createSelector to generate videoKey,
+   *   do not need to pass it as props
+   * @param movie
+   */
+
   const viewTrailer = (movie) => {
     getMovie(movie.id)
     if (!videoKey) setOpen(true)
     setOpen(true)
   }
 
+  /**
+   * 1.Issues: : Backend service requests are spread across multiple files
+   *   Suggestion: Consolidate backend service request logic into “services” folder.
+   *               A centralized location for service requests simplifies maintenance, enhancing code readability and avoiding duplication.
+   *
+   * 2.Issues: API URL spread across multiple files.
+   *   Suggestion: Centralized the API URL in one folder “apiUtils”. We can create a “endpoint.js” file to use a function that accepts parameters to generate the dynamic url.
+   * @param id
+   * @returns {Promise<void>}
+   */
   const getMovie = async (id) => {
     const URL = `${ENDPOINT}/movie/${id}?api_key=${API_KEY}&append_to_response=videos`
 
@@ -70,11 +111,17 @@ const App = () => {
     }
   }
 
+  /**
+   * Issue: Missing movies dependence
+   */
   useEffect(() => {
     getMovies()
   }, [])
 
   return (
+    /**
+     * Remove unused props in Header and all nested components.
+     */
     <div className="App">
       <Header searchMovies={searchMovies} searchParams={searchParams} setSearchParams={setSearchParams} />
 
@@ -84,6 +131,9 @@ const App = () => {
             videoKey={videoKey}
           />
         ) : (
+          /**
+           * Issue: Inline style is difficult maintain
+           */
           <div style={{padding: "30px"}}><h6>no trailer available. Try another movie</h6></div>
         )}
 

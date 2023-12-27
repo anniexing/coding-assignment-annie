@@ -5,9 +5,14 @@ import Movie from './Movie'
 import '../styles/starred.scss'
 
 const Starred = ({viewTrailer}) => {
-
+  /**
+   * Issue:Destructuring starred directly from the entire state
+   */
     const state = useSelector((state) => state)
     const { starred } = state
+   /**
+   * Issue:Not Exporting Actions Directly in starredSlice
+   */
     const { clearAllStarred } = starredSlice.actions
     const dispatch = useDispatch()
 
@@ -17,8 +22,8 @@ const Starred = ({viewTrailer}) => {
         <h6 className="header">Starred movies</h6>
         <div className="row">
         {starred.starredMovies.map((movie) => (
-          <Movie 
-            movie={movie} 
+          <Movie
+            movie={movie}
             key={movie.id}
             viewTrailer={viewTrailer}
           />

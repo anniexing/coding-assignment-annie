@@ -13,6 +13,10 @@ const watchLaterSlice = createSlice({
             const indexOfId = state.watchLaterMovies.findIndex(key => key.id === action.payload.id)
             state.watchLaterMovies.splice(indexOfId, 1)
         },
+        /**
+         * remveAllWatchLater spell error
+         * @param state
+         */
         remveAllWatchLater: (state) => {
             state.watchLaterMovies = []
         },
