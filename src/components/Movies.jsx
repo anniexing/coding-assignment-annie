@@ -1,20 +1,20 @@
+import { useSelector} from 'react-redux';
 import Movie from './Movie'
 import '../styles/movies.scss'
 
-const Movies = ({ movies, viewTrailer, closeCard }) => {
-
+const Movies = () => {
+    const {movies, isFetching} = useSelector(state => state.movies);
     return (
-        <div data-testid="movies">
-            {movies.movies.results?.map((movie) => {
+        <div data-testid="movies" className="movies_list">
+            {movies?.map((movie) => {
                 return (
                     <Movie
                         movie={movie}
                         key={movie.id}
-                        viewTrailer={viewTrailer}
-                        closeCard={closeCard}
                     />
                 )
             })}
+            {isFetching && <p>Loading...</p>}
         </div>
     )
 }

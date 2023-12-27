@@ -1,31 +1,22 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import starredSlice from '../data/starredSlice'
+import { clearAllStarred } from '../store/starredSlice'
 import Movie from './Movie'
 import '../styles/starred.scss'
 
-const Starred = ({viewTrailer}) => {
-  /**
-   * Issue:Destructuring starred directly from the entire state
-   */
-    const state = useSelector((state) => state)
-    const { starred } = state
-   /**
-   * Issue:Not Exporting Actions Directly in starredSlice
-   */
-    const { clearAllStarred } = starredSlice.actions
+const Starred = () => {
+    const { starredMovies } = useSelector((state) => state.starred)
     const dispatch = useDispatch()
 
   return (
-    <div className="starred" data-testid="starred">
-      {starred.starredMovies.length > 0 && (<div data-testid="starred-movies" className="starred-movies">
+    <div className="starred movies_list" data-testid="starred">
+      {starredMovies && starredMovies.length > 0 && (<div data-testid="starred-movies" className="starred-movies">
         <h6 className="header">Starred movies</h6>
         <div className="row">
-        {starred.starredMovies.map((movie) => (
+        {starredMovies && starredMovies.map((movie) => (
           <Movie
             movie={movie}
             key={movie.id}
-            viewTrailer={viewTrailer}
           />
         ))}
         </div>
@@ -35,7 +26,7 @@ const Starred = ({viewTrailer}) => {
         </footer>
       </div>)}
 
-      {starred.starredMovies.length === 0 && (<div className="text-center empty-cart">
+      {starredMovies && starredMovies.length === 0 && (<div className="text-center empty-cart">
         <i className="bi bi-star" />
         <p>There are no starred movies.</p>
         <p>Go to <Link to='/'>Home</Link></p>

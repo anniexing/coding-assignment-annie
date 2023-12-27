@@ -19,4 +19,6 @@ const starredSlice = createSlice({
     },
 })
 
-export default starredSlice
+export const {starMovie, clearAllStarred, unstarMovie} = starredSlice.actions;
+
+export default starredSlice.reducer

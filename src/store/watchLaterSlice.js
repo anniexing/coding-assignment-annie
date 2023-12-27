@@ -17,10 +17,11 @@ const watchLaterSlice = createSlice({
          * remveAllWatchLater spell error
          * @param state
          */
-        remveAllWatchLater: (state) => {
+        removeAllWatchLater: (state) => {
             state.watchLaterMovies = []
         },
     },
 })
 
-export default watchLaterSlice
+export const {addToWatchLater, removeFromWatchLater, removeAllWatchLater} = watchLaterSlice.actions;
+export default watchLaterSlice.reducer
