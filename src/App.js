@@ -13,9 +13,8 @@ import {selectedTrailerVideo} from './selectors/videoTrailerSelector';
 import Modal from "./components/common/Modal";
 
 const App = () => {
-  const [searchParams, setSearchParams] = useSearchParams()
   const { videoKeyTest} = (useSelector(state => selectedTrailerVideo(state, "Trailer")))
-  const navigate = useNavigate();
+
   const [requestParams, setRequestParams] = useState({
     page: 1
   });
@@ -39,23 +38,6 @@ const App = () => {
   }, [requestParams, isFetching]);
 
 
-  const getSearchResults = (query) => {
-    /**
-     * Search movies can not work
-     */
-    if (query !== '') {
-      fetchMovies({searchQuery:query})
-      setSearchParams(createSearchParams({ search: query }))
-    } else {
-      fetchMovies({page: requestParams.page + 1})
-      setSearchParams()
-    }
-  }
-
-  const searchMovies = (query) => {
-    navigate('/')
-    getSearchResults(query)
-  }
 
 
   return (
@@ -63,7 +45,7 @@ const App = () => {
      * Remove unused props in Header and all nested components.
      */
     <div className="App">
-      <Header searchMovies={searchMovies} searchParams={searchParams} setSearchParams={setSearchParams} />
+      <Header />
 
       <div className="container">
         <Routes>
