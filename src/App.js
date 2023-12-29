@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Routes, Route, createSearchParams, useSearchParams, useNavigate } from "react-router-dom"
+import { Routes, Route } from "react-router-dom"
 import { useSelector } from 'react-redux'
 import 'reactjs-popup/dist/index.css'
 import Header from './components/Header'
