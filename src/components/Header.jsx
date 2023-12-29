@@ -3,10 +3,16 @@ import { useSelector } from 'react-redux'
 
 import '../styles/header.scss'
 
+/**
+ *Issue: Move searchMovies into Header component , do not pass that as props from App Component
+ */
 const Header = ({ searchMovies }) => {
-  
   const { starredMovies } = useSelector((state) => state.starred)
 
+  /**
+   * Issue:did not use debounce for onKeyUp SearchMovies, this will caused send too much request when key up
+   * Suggestion: using debounce for onKeyUp
+   */
   return (
     <header>
       <Link to="/" data-testid="home" onClick={() => searchMovies('')}>
@@ -32,14 +38,14 @@ const Header = ({ searchMovies }) => {
       <div className="input-group rounded">
         <Link to="/" onClick={(e) => searchMovies('')} className="search-link" >
           <input type="search" data-testid="search-movies"
-            onKeyUp={(e) => searchMovies(e.target.value)} 
-            className="form-control rounded" 
-            placeholder="Search movies..." 
-            aria-label="Search movies" 
-            aria-describedby="search-addon" 
+            onKeyUp={(e) => searchMovies(e.target.value)}
+            className="form-control rounded"
+            placeholder="Search movies..."
+            aria-label="Search movies"
+            aria-describedby="search-addon"
             />
-        </Link>            
-      </div>      
+        </Link>
+      </div>
     </header>
   )
 }
